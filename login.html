@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="bg-white-800 w-64 p-6 space-y-6">
+      <div class="text-2xl font-bold"><i class="fa-solid fa-location-pin"></i> PHINDEX</div>
+      <nav class="space-y-4 text-white-300">
+        <a href="dashboard.html" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="community.html" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-user-group"></i> Community</a>
+        <a href="#" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-square-poll-vertical"></i> Track</a>
+        <a href="map.html" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-clipboard"></i> Report</a>
+      </nav>
+      <div class="absolute bottom-10 left-6 space-y-4 text-white-300">
+        <a href="#" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="login.html" class="flex items-center gap-2 hover:text-white"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-10 space-y-6">
+      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <p class="text-sm text-gray-400 mb-6">Welcome back</p>
+
+      <!-- Cards -->
+      <div class="flex flex-col items-left space-y-4">
+        <div class="bg-gray-800 p-4 rounded-xl text-center w-full">
+          <p class="text-base font-medium mb-2">Turn on Preventing Mode</p>
+          <button class="buzzer-btn bg-red-500 hover:bg-red-600 px-4 py-1 rounded-full text-sm font-semibold">Prevent</button>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-xl text-center w-full">
+          <p class="text-base font-medium mb-2">Phone just got stolen</p>
+          <button class="buzzer-btn bg-red-500 hover:bg-red-600 px-4 py-1 rounded-full text-sm font-semibold">Action</button>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-xl text-center w-full">
+          <p class="text-base font-medium mb-2">Stolen an hour ago</p>
+          <button class="buzzer-btn bg-red-500 hover:bg-red-600 px-4 py-1 rounded-full text-sm font-semibold">Collect</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase App (Core) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <!-- Firebase Realtime Database -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBP1i59QJ_KD0xikN4KzfkLXvTwECcCXaM",
+      authDomain: "nmit-b2dcd.firebaseapp.com",
+      databaseURL: "https://nmit-b2dcd-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nmit-b2dcd",
+      storageBucket: "nmit-b2dcd.appspot.com",
+      messagingSenderId: "444852521210",
+      appId: "1:444852521210:web:c3131d7e683cff360da143"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const buzzerRef = db.ref('sensor_data/buzzer');
+
+    // Handle buzzer logic
+    function triggerBuzzer() {
+      buzzerRef.set(true); // Turn on buzzer
+      setTimeout(() => {
+        buzzerRef.set(false); // Turn off after 3 seconds
+      }, 3000);
+    }
+
+    // Attach event to all buttons with class 'buzzer-btn'
+    document.querySelectorAll('.buzzer-btn').forEach(btn => {
+      btn.addEventListener('click', triggerBuzzer);
+    });
+  </script>
+</body>
+</html>
